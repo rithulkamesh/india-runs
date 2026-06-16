@@ -4,16 +4,14 @@
 
 ## Architecture
 
-```
-┌──────────────┐     ┌──────────────┐     ┌─────────────────┐     ┌──────────┐
-│  candidates   │────▶│   Data       │────▶│  Feature Engine  │────▶│  LTR     │
-│  .jsonl       │     │   Loader     │     │  (30 features)   │     │  Ranker  │
-└──────────────┘     └──────────────┘     └─────────────────┘     └────┬─────┘
-                                                                    │
-┌──────────────┐     ┌──────────────┐     ┌─────────────────┐        │
-│  submission  │◀────│  Reasoning   │◀────│  Score Pipeline  │◀───────┘
-│  .csv         │     │  Generator  │     │  (multi-signal)  │
-└──────────────┘     └──────────────┘     └─────────────────┘
+```mermaid
+flowchart LR
+    A[candidates.jsonl] --> B[Data Loader]
+    B --> C[Feature Engine<br/>30 features]
+    C --> D[LTR Ranker]
+    D --> E[Score Pipeline<br/>5-signal]
+    E --> F[Reasoning Generator]
+    F --> G[submission.csv]
 ```
 
 ## Approach
@@ -62,7 +60,7 @@ uv run python src/eval/validate.py submission.csv data/candidates.jsonl
 ```
 india-runs/
 ├── rank.py                       # One-command entry point
-├── requirements.txt
+├── pyproject.toml                # uv-managed dependencies + lockfile
 ├── src/
 │   ├── ranker/
 │   │   ├── config.py             # JD requirements, skill lists, weights
@@ -76,7 +74,7 @@ india-runs/
 │   │   ├── honeypot_detector.py  # Honeypot identification & filtering
 │   │   └── reasoning_generator.py# Per-candidate explanation generation
 │   ├── data/
-│   │   ├── loader.py             # JSONL loading with Polars
+│   │   ├── loader.py             # Fast JSONL loading (orjson)
 │   │   └── skill_ontology.py    # Skill relationships & normalization
 │   └── eval/
 │       ├── metrics.py            # NDCG@K, MRR, MAP, P@K, Recall@K
