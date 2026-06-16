@@ -7,8 +7,7 @@ import time
 
 sys.path.insert(0, ".")
 
-from src.data.loader import load_candidates
-from src.ranker.pipeline import run_pipeline
+from src.ranker.pipeline import run_pipeline_streaming
 
 
 def write_submission(results: list[dict], output_path: str):
@@ -58,19 +57,12 @@ def main():
 
     t_start = time.time()
 
-    candidates = load_candidates(args.candidates, limit=args.limit)
-
-    if len(candidates) < args.top_k:
-        print(f"WARNING: Only {len(candidates)} candidates, less than top_k={args.top_k}")
-        args.top_k = len(candidates)
-
-    results = run_pipeline(candidates, top_k=args.top_k)
+    results = run_pipeline_streaming(args.candidates, top_k=args.top_k, limit=args.limit)
 
     write_submission(results, args.out)
 
     elapsed = time.time() - t_start
     print(f"\nTotal time: {elapsed:.2f}s")
-    print(f"Candidates processed: {len(candidates)}")
     print(f"Top candidates ranked: {len(results)}")
     print(f"\nTop 5:")
     for r in results[:5]:

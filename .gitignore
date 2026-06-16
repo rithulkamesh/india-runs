@@ -64,3 +64,6 @@ Thumbs.db
 dataset.zip
 .claude
 graphify-out
+
+# local demo recordings (not committed)
+captures/

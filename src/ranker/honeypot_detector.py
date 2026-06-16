@@ -24,6 +24,11 @@ def detect_honeypots(candidates: list[dict]) -> set[str]:
     return honeypots
 
 
+def is_honeypot(candidate: dict) -> bool:
+    """Single-candidate honeypot check (used by the streaming ranker)."""
+    return _check_single_candidate(candidate)
+
+
 def _check_single_candidate(c: dict) -> bool:
     """Check for clear impossibilities."""
     profile = c.get("profile", {})
