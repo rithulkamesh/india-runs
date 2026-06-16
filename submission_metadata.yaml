@@ -1,0 +1,49 @@
+team_name: "india-runs"
+
+primary_contact:
+  name: "Team India Runs"
+  email: "team@indiaruns.dev"
+
+team_members:
+  - name: "Team Member"
+    email: "member@indiaruns.dev"
+    role: "ML Engineer"
+
+github_repo: "https://github.com/USER/india-runs"
+
+sandbox_link: "https://github.com/USER/india-runs"
+
+reproduce_command: "python rank.py --candidates ./data/candidates.jsonl --out ./submission.csv"
+
+compute:
+  platform: "MacBook Pro"
+  cpu_cores: 8
+  ram_gb: 16
+  python_version: "3.13"
+  os: "macOS"
+  uses_gpu_for_inference: false
+  has_network_during_ranking: false
+  pre_computation_required: false
+  pre_computation_time_minutes: 0
+
+ai_tools_used:
+  - "Claude"
+
+ai_usage_summary: |
+  Used Claude for architecture discussion and code review. No candidate data
+  was fed to any LLM. All ranking logic is local feature-engineered scoring.
+
+methodology_summary: |
+  Multi-signal learning-to-rank approach with 5 weighted feature categories:
+  title/career fit (0.30), skill match with anti-stuffing (0.25), behavioral
+  signals (0.20), experience alignment (0.15), location/education (0.10).
+  Keyword-stuffer elimination via title-skill consistency gating. Consulting-only
+  career penalty per JD requirements. Feature-engineered scoring with no LLM
+  calls. Runtime ~10s for 100K candidates on CPU.
+
+declarations:
+  read_submission_spec: true
+  code_is_original_work: true
+  no_collusion: true
+  honeypot_check_done: true
+  reproduction_tested: true
