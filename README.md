@@ -2,6 +2,12 @@
 
 > Redrob AI Hackathon: Build the winning candidate ranking system.
 
+## Demo
+
+![Ranking 100,000 candidates in 8.2s using about 1.2 MB of memory](docs/demo.gif)
+
+> 100,000 candidates ranked in 8.2s with a single-pass top-K heap (about 1.2 MB peak).
+
 ## Architecture
 
 ```mermaid
